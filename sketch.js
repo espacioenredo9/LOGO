@@ -9,12 +9,17 @@ let startX1, startY1, startX2, startY2;
 let intersectionRadius;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight); // Full-screen canvas
+    createCanvas(windowWidth, windowHeight);
     background(255);
-    adjustSpiralSettings(); // Dynamically adjust spiral size & position
+    adjustSpiralSettings(); // Ensures everything is set before drawing
 }
 
 function draw() {
+    if (radius1 >= intersectionRadius && radius2 >= intersectionRadius) {
+        noLoop();
+        return;
+    }
+
     let dynamicWobble1 = sin(wobbleAngle1) * wobbleFactor1 * sin(angle1 * 0.5);
     let x1 = startX1 + (radius1 + dynamicWobble1) * cos(angle1 + sin(wobbleAngle1) * 0.2);
     let y1 = startY1 + (radius1 + dynamicWobble1) * sin(angle1 + sin(wobbleAngle1) * 0.2);
@@ -34,11 +39,6 @@ function draw() {
     strokeWeight(strokeW2);
     line(prevX2, prevY2, x2, y2);
 
-    if (radius1 >= intersectionRadius && radius2 >= intersectionRadius) {
-        noLoop();
-        return;
-    }
-
     prevX1 = x1;
     prevY1 = y1;
     prevX2 = x2;
@@ -57,24 +57,34 @@ function draw() {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     background(255);
-    adjustSpiralSettings(); // Recalculate positions & sizes
+    adjustSpiralSettings(); // Ensures everything is recalculated properly
 }
 
-// Function to adjust spiral sizes and positions for any screen size
+// Ensures spirals always fit the screen
 function adjustSpiralSettings() {
     let minDimension = min(width, height);
 
     maxRadius1 = random(minDimension * 0.2, minDimension * 0.35);
     maxRadius2 = random(minDimension * 0.2, minDimension * 0.35);
+    intersectionRadius = (maxRadius1 + maxRadius2) / 2;
 
-    // Adjust positions dynamically for desktop & mobile
-    startX1 = width * 0.33; // One-third of screen width
-    startY1 = height * 0.5; // Centered vertically
-    startX2 = width * 0.67; // Two-thirds of screen width
-    startY2 = height * 0.5; // Centered vertically
+    // Reset radius so they grow properly
+    radius1 = 0;
+    radius2 = 0;
+
+    // Set new randomized positions within the screen
+    startX1 = width * 0.33;
+    startY1 = height * 0.5;
+    startX2 = width * 0.67;
+    startY2 = height * 0.5;
 
     prevX1 = startX1;
     prevY1 = startY1;
     prevX2 = startX2;
     prevY2 = startY2;
+
+    wobbleFactor1 = random(2, 6);
+    wobbleSpeed1 = random(0.001, 0.005);
+    wobbleFactor2 = random(2, 6);
+    wobbleSpeed2 = random(0.001, 0.005);
 }
