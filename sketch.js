@@ -10,30 +10,8 @@ let intersectionRadius;
 
 function setup() {
     createCanvas(windowWidth, windowHeight); // Full-screen canvas
-    background(255); // White background
-
-    let minDimension = min(width, height); // Adjust sizes for smaller screens
-
-    maxRadius1 = random(minDimension * 0.2, minDimension * 0.4); // Scale for different screen sizes
-    maxRadius2 = random(minDimension * 0.2, minDimension * 0.4);
-
-    startX1 = random(width * 0.3, width * 0.7); // Adjusted for better mobile positioning
-    startY1 = random(height * 0.3, height * 0.7);
-    startX2 = random(width * 0.3, width * 0.7);
-    startY2 = random(height * 0.3, height * 0.7);
-
-    prevX1 = startX1;
-    prevY1 = startY1;
-    prevX2 = startX2;
-    prevY2 = startY2;
-
-    intersectionRadius = (maxRadius1 + maxRadius2) / 2; // Ensure intersection occurs
-    noFill();
-
-    wobbleFactor1 = random(2, 6);
-    wobbleSpeed1 = random(0.001, 0.005); // Smoother, longer wobble
-    wobbleFactor2 = random(2, 6);
-    wobbleSpeed2 = random(0.001, 0.005);
+    background(255);
+    adjustSpiralSettings(); // Dynamically adjust spiral size & position
 }
 
 function draw() {
@@ -45,10 +23,10 @@ function draw() {
     let x2 = startX2 + (radius2 + dynamicWobble2) * cos(angle2 + sin(wobbleAngle2) * 0.2);
     let y2 = startY2 + (radius2 + dynamicWobble2) * sin(angle2 + sin(wobbleAngle2) * 0.2);
 
-    let strokeW1 = random(0.5, 2); // Randomized stroke weight within reduced range
+    let strokeW1 = random(0.5, 2);
     let strokeW2 = random(0.5, 2);
 
-    stroke(0); // Black lines
+    stroke(0);
     strokeWeight(strokeW1);
     line(prevX1, prevY1, x1, y1);
 
@@ -67,28 +45,33 @@ function draw() {
     prevY2 = y2;
 
     angle1 += 0.1;
-    radius1 += random(0.1, 0.2); // Randomizing radius increment for self-intersection
+    radius1 += random(0.1, 0.2);
     wobbleAngle1 += wobbleSpeed1;
 
     angle2 -= 0.1;
-    radius2 += random(0.1, 0.2); // Randomizing radius increment for self-intersection
+    radius2 += random(0.1, 0.2);
     wobbleAngle2 += wobbleSpeed2;
 }
 
-// Resizes canvas when window size changes
+// Resizes canvas and repositions spirals on window resize
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     background(255);
+    adjustSpiralSettings(); // Recalculate positions & sizes
+}
 
-    // Adjust positions & radii after resize
+// Function to adjust spiral sizes and positions for any screen size
+function adjustSpiralSettings() {
     let minDimension = min(width, height);
-    maxRadius1 = random(minDimension * 0.2, minDimension * 0.4);
-    maxRadius2 = random(minDimension * 0.2, minDimension * 0.4);
 
-    startX1 = random(width * 0.3, width * 0.7);
-    startY1 = random(height * 0.3, height * 0.7);
-    startX2 = random(width * 0.3, width * 0.7);
-    startY2 = random(height * 0.3, height * 0.7);
+    maxRadius1 = random(minDimension * 0.2, minDimension * 0.35);
+    maxRadius2 = random(minDimension * 0.2, minDimension * 0.35);
+
+    // Adjust positions dynamically for desktop & mobile
+    startX1 = width * 0.33; // One-third of screen width
+    startY1 = height * 0.5; // Centered vertically
+    startX2 = width * 0.67; // Two-thirds of screen width
+    startY2 = height * 0.5; // Centered vertically
 
     prevX1 = startX1;
     prevY1 = startY1;
