@@ -11,7 +11,8 @@ let intersectionRadius;
 function setup() {
     createCanvas(windowWidth, windowHeight);
     background(255);
-    adjustSpiralSettings(); // Ensures everything is set before drawing
+    randomSeed(millis()); // Ensures randomness is different every load
+    adjustSpiralSettings();
 }
 
 function draw() {
@@ -57,10 +58,10 @@ function draw() {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     background(255);
-    adjustSpiralSettings(); // Ensures everything is recalculated properly
+    adjustSpiralSettings();
 }
 
-// Ensures spirals always fit the screen
+// Ensures spirals always fit the screen with random starting positions
 function adjustSpiralSettings() {
     let minDimension = min(width, height);
 
@@ -72,11 +73,11 @@ function adjustSpiralSettings() {
     radius1 = 0;
     radius2 = 0;
 
-    // Set new randomized positions within the screen
-    startX1 = width * 0.33;
-    startY1 = height * 0.5;
-    startX2 = width * 0.67;
-    startY2 = height * 0.5;
+    // Use random positions that are within screen bounds
+    startX1 = random(width * 0.25, width * 0.75);
+    startY1 = random(height * 0.25, height * 0.75);
+    startX2 = random(width * 0.25, width * 0.75);
+    startY2 = random(height * 0.25, height * 0.75);
 
     prevX1 = startX1;
     prevY1 = startY1;
