@@ -9,14 +9,14 @@ let startX1, startY1, startX2, startY2;
 let intersectionRadius;
 
 function setup() {
-  createCanvas(1200, 600); // Larger canvas
+  createCanvas(windowWidth, windowHeight); // Full-screen canvas
   background(255); // White background
   maxRadius1 = random(150, 350); // Randomize final size for first spiral
   maxRadius2 = random(150, 350); // Randomize final size for second spiral
-  startX1 = random(300, 900); // Randomize starting X position
-  startY1 = random(150, 450); // Randomize starting Y position
-  startX2 = random(300, 900); // Randomize starting X position for second spiral
-  startY2 = random(150, 450); // Randomize starting Y position for second spiral
+  startX1 = random(width * 0.25, width * 0.75); // Adjust to fit full screen
+  startY1 = random(height * 0.25, height * 0.75);
+  startX2 = random(width * 0.25, width * 0.75);
+  startY2 = random(height * 0.25, height * 0.75);
   prevX1 = startX1;
   prevY1 = startY1;
   prevX2 = startX2;
@@ -67,4 +67,10 @@ function draw() {
   angle2 -= 0.1;
   radius2 += random(0.1, 0.2); // Randomizing radius increment for self-intersection
   wobbleAngle2 += wobbleSpeed2;
+}
+
+// Resizes canvas when window size changes
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  background(255); // Refresh the background on resize
 }
