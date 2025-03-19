@@ -9,9 +9,9 @@ let startX1, startY1, startX2, startY2;
 let intersectionRadius;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight); // Full-screen canvas
+    createCanvas(windowWidth, windowHeight); // Fullscreen canvas
     background(255); // White background
-    adjustSpiralSettings(); // Ensures correct spiral placement
+    adjustSpiralSettings(); // Keeps spirals inside the screen
 }
 
 function draw() {
@@ -53,14 +53,14 @@ function draw() {
     wobbleAngle2 += wobbleSpeed2;
 }
 
-// Resize canvas when window size changes
+// 🔹 Resize canvas when window size changes
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     background(255);
-    adjustSpiralSettings(); // Adjusts positions to new screen size
+    adjustSpiralSettings(); // Keeps spirals centered on resize
 }
 
-// Adjusts the placement of spirals without changing their drawing logic
+// 🔹 Keeps the spirals inside the screen without modifying their behavior
 function adjustSpiralSettings() {
     let minDimension = min(width, height);
 
